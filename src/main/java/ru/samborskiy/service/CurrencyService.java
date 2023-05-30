@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 public class CurrencyService {
     @Value("${api.key}")
     private String apikey;
+    @Value("${api.url}")
+    private String apiUrl;
     public Response getCurrencyRate(String messageFrom, String messageTo, String amount) throws IOException {
         String url = "https://api.apilayer.com/fixer/convert?to=" + messageTo + "&from=" + messageFrom + "&amount=" + amount;
         OkHttpClient client = new OkHttpClient().newBuilder().readTimeout(300, TimeUnit.SECONDS).build();

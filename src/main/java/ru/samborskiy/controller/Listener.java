@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.samborskiy.config.BotConfig;
 import ru.samborskiy.model.CurrencyModel;
-import ru.samborskiy.repository.Repo;
+import ru.samborskiy.repository.CurrencyRepository;
 import ru.samborskiy.service.CurrencyService;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class Listener {
     @Autowired
     private final CurrencyService currencyService;
     @Autowired
-    private Repo repo;
+    private CurrencyRepository repo;
     private final CurrencyModel model = new CurrencyModel();
     private final Logger logger = LoggerFactory.getLogger(Listener.class);
 
@@ -39,7 +39,6 @@ public class Listener {
     public Listener(CurrencyService currencyService, BotConfig botConfig) {
         this.currencyService = currencyService;
         this.botConfig = botConfig;
-
     }
     @PostConstruct
     public void init() {
@@ -80,8 +79,8 @@ public class Listener {
     private void save(Long chatId, String userName, JSONObject jsonObject) {
         JSONObject query = (JSONObject) jsonObject.get("query");
         JSONObject info = (JSONObject) jsonObject.get("info");
-        model.setFrom(query.getString("from"));
-        model.setTo(query.getString("to"));
+        model.setCurrencyFrom(query.getString("from"));
+        model.setCurrencyTo(query.getString("to"));
         model.setAmount(query.getInt("amount"));
         model.setRate(info.getDouble("rate"));
         model.setResult(jsonObject.getDouble("result"));
